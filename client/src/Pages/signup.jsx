@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Input from "../Components/Input";
 import { useForm } from "react-hook-form";
 
-export default function SignUp() {
+const SignUp = () => {
   const [checkBox, setCheckBox] = useState();
 
   function checkCheckBox(e) {
@@ -151,4 +151,6 @@ export default function SignUp() {
       </form>
     </>
   );
-}
+};
+
+export default SignUp;
