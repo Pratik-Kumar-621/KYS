@@ -1,11 +1,8 @@
 import React from "react";
+import Landing from "./Components/Landing";
 
 const App = () => {
-  return (
-    <div>
-      <h1>Stock Dekho</h1>
-    </div>
-  );
+  return <Landing />;
 };
 
 export default App;
