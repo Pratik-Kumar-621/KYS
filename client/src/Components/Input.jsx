@@ -1,12 +1,14 @@
-import React from "react";
-import { useAuth } from "../Context/auth/AuthState";
-const Input = () => {
-  const auth = useAuth();
+import React, { forwardRef } from "react";
+
+const Input = forwardRef(({ label, children, ...restprops }, ref) => {
   return (
-    <div>
-      <h1>Input</h1>
+    <div className="flex flex-col xl:mt-6 md:mt-3">
+      <label htmlFor={label} className="label">
+        {label}
+      </label>
+      <input ref={ref} {...restprops} className="input" />
     </div>
   );
-};
+});
 
 export default Input;

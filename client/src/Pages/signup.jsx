@@ -1,0 +1,156 @@
+import React, { useState } from "react";
+// import { Link } from "react-router-dom";
+import Input from "../Components/Input";
+import { useForm } from "react-hook-form";
+
+const SignUp = () => {
+  const [checkBox, setCheckBox] = useState();
+
+  function checkCheckBox(e) {
+    const checkData = e.target.checked;
+    setCheckBox(checkData);
+  }
+
+  const handleSignup = (data) => {
+    console.log(data);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({ mode: "all" });
+
+  return (
+    <>
+      <h3>Getting started</h3>
+      <h1>Create New Account</h1>
+      <p>
+        Already a member?
+        <a href="/login">Log In</a>
+      </p>
+
+      <form onSubmit={handleSubmit(handleSignup)}>
+        <Input
+          id="first_name"
+          label="First Name"
+          type="text"
+          placeholder="Eg: Puneet"
+          name="first_name"
+          {...register("first_name", {
+            required: true,
+            maxLength: 80,
+          })}
+        />
+        <p className="error">
+          {errors.first_name && "Please enter Your First Name !"}
+        </p>
+        <Input
+          id="last_name"
+          label="Last Name"
+          type="text"
+          placeholder="Eg: Priyadarshi"
+          name="last_name"
+          {...register("last_name", {
+            required: true,
+            maxLength: 80,
+          })}
+        />
+        <p className="error">
+          {errors.last_name && "Please enter Your Last Name !"}
+        </p>
+        <Input
+          id="email"
+          label="UserName or Email"
+          type="email"
+          placeholder="Eg. puneet123 or puneetXXX@abc.xyz"
+          name="email"
+          {...register("email", {
+            required: true,
+            pattern: /^\S+@\S+$/i,
+          })}
+        />
+        <p className="error">{errors.email && "Please enter Valid Email !"}</p>
+        <Input
+          id="password"
+          label="Password"
+          type={checkBox ? "text" : "password"}
+          placeholder="Eg: **********"
+          name="password"
+          {...register("password", {
+            required: true,
+            minLength: 8,
+            maxLength: 16,
+            pattern:
+              /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+          })}
+        />
+        <p className="error">
+          {errors.password &&
+            "Password should have minimum eight characters, at least one letter, one number and one special character eg. 1234abc@"}
+        </p>
+
+        <Input
+          id="confirm_password"
+          label="Confirm Password"
+          type={checkBox ? "text" : "password"}
+          placeholder="Eg: **********"
+          name="confirm_password"
+          {...register("confirm_password", {
+            required: true,
+            minLength: 8,
+            maxLength: 16,
+            validate: (value) => value === getValues("password"),
+          })}
+        />
+        <p className="error">
+          {errors.confirm_password &&
+            "Confirm Password is not equal to passsword !"}
+        </p>
+
+        <input
+          id="checkbox"
+          type="checkbox"
+          onChange={checkCheckBox}
+          checked={checkBox}
+        />
+        <label htmlFor="checkbox">Show Password</label>
+
+        <div className="submit-btn">
+          <button type="submit" className="submit">
+            SignUp
+          </button>
+          <button type="submit" className="submit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 48 48"
+              width="12px"
+              height="12px"
+            >
+              <path
+                fill="#FFC107"
+                d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+              />
+              <path
+                fill="#FF3D00"
+                d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+              />
+              <path
+                fill="#4CAF50"
+                d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+              />
+              <path
+                fill="#1976D2"
+                d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+              />
+            </svg>
+            Continue with Google
+          </button>
+        </div>
+      </form>
+    </>
+  );
+};
+
+export default SignUp;
