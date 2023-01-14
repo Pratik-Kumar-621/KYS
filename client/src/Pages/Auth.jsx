@@ -1,11 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Landing from "../Components/Landing";
 
 const Auth = () => {
   return (
-    <div>
+    <div className="home_page">
+      <Landing />
       <Outlet />
-      <h1>Auth</h1>
     </div>
   );
 };
