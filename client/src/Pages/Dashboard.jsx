@@ -3,6 +3,7 @@ import { MenuItem, Select } from "@mui/material";
 import React from "react";
 import Footer from "../Components/Footer";
 import Nav from "../Components/Nav";
+import Graph from "../Components/Graph";
 
 const Dashboard = () => {
   const [personName, setPersonName] = React.useState();
@@ -24,6 +25,7 @@ const Dashboard = () => {
           <MenuItem value="RELIANCE">RELIANCE</MenuItem>
           <MenuItem value="TATASTEEL">TATASTEEL</MenuItem>
         </Select>
+        <Graph />
       </div>
       <Footer />
     </div>
