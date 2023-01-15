@@ -1,22 +1,59 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Input from "../Components/Input";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
 import GoogleImg from "../Media/google.png";
+import {getAuth,createUserWithEmailAndPassword,GoogleAuthProvider,signInWithPopup} from 'firebase/auth'
+import {addDoc, doc, setDoc, updateDoc} from 'firebase/firestore'
+import {app,db} from "../firebaseConfig";
 
 const SignUp = () => {
   const [checkBox, setCheckBox] = useState();
+  const auth = getAuth(app);
+  const navigate = useNavigate();
+  const goToSignIn = ()=>navigate('/login')
+  const goToDashboard = ()=>navigate('/dashboard')
+  const provider = new GoogleAuthProvider();
+  
 
   const checkCheckBox = (e) => {
     const checkData = e.target.checked;
     setCheckBox(checkData);
   };
 
-  const handleSignup = (data) => {
+  const handleSignup = async (data,e) => {
+    e.preventDefault();
     console.log(data);
+    // start loader...
+    try {
+      let userCred = await createUserWithEmailAndPassword(auth,data.email,data.password);
+      await setDoc(doc(db,"users",userCred.user.uid),{
+        first_name:data.first_name,
+        last_name:data.last_name
+      })
+      goToSignIn();
+    } catch (error) {
+      //user creation error or database write error
+      console.log(error)
+    }
+    // redirect to login page 
   };
+  const handleGoogleSignUp = async (e)=>{
+    try {
+      provider.addScope('profile');
+      provider.addScope('email');
+      let userCred = await signInWithPopup(auth,provider);
+      await setDoc(doc(db,"users",userCred.user.uid),{
+        first_name:userCred.user.displayName,
+        last_name:""
+      })
+      goToDashboard();
+    } catch (error) {
+      // error
+    }
 
+  }
   const {
     register,
     handleSubmit,
@@ -129,7 +166,7 @@ const SignUp = () => {
           <Button type="submit" className="submit-form">
             SignUp
           </Button>
-          <Button className="submit_google">
+          <Button className="submit_google" onClick={handleGoogleSignUp}>
             <img src={GoogleImg} alt="Google" />
             Continue with Google
           </Button>

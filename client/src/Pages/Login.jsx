@@ -1,21 +1,57 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../Components/Input";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
 import GoogleImg from "../Media/google.png";
+import {signInWithEmailAndPassword,GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
+import { getAuth } from "firebase/auth";
+import { app ,db} from "../firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 const Login = () => {
   const [checkBox, setCheckBox] = useState();
-
+  const [error,setError] = useState("");
+  const navigate = useNavigate();
+  const goToDashboard = ()=>navigate('/dashboard');
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
   const checkCheckBox = (e) => {
     const checkData = e.target.checked;
     setCheckBox(checkData);
   };
 
-  const handleLogin = (data) => {
+  const handleLogin =  async(data) => {
     console.log(data);
+    try {
+      
+      let userCred = await signInWithEmailAndPassword(auth,data.email,data.password);
+      let docSnap = await getDoc(doc(db,'users',userCred.user.uid))
+      console.log(docSnap.data());
+      // set context
+      goToDashboard();
+    } catch (error) {
+      if(error.code == 'auth/user-not-found'){
+        setError('Email not found !')
+      }
+      if(error.code == 'auth/wrong-password') {
+        setError('Wrong Password!')
+      }
+      
+    }
+
   };
+  const handleGoogleSignIn = async (e)=>{
+    try {
+      provider.addScope('profile');
+      provider.addScope('email');
+      let userCred = await signInWithPopup(auth,provider);
+      goToDashboard();
+    } catch (error) {
+      // error
+    }
+
+  }
 
   const {
     register,
@@ -35,9 +71,9 @@ const Login = () => {
       <form onSubmit={handleSubmit(handleLogin)}>
         <Input
           id="email"
-          label="UserName or Email"
+          label="Email"
           type="email"
-          placeholder="Eg. puneet123 or puneetXXX@abc.xyz"
+          placeholder="himanshuXXX@abc.xyz"
           name="email"
           {...register("email", {
             required: true,
@@ -77,7 +113,7 @@ const Login = () => {
           <Button type="submit" className="submit-form">
             Login
           </Button>
-          <Button className="submit_google">
+          <Button className="submit_google" onClick={handleGoogleSignIn}>
             <img src={GoogleImg} alt="Google" />
             Continue with Google
           </Button>
