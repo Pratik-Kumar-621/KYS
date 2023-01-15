@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../Components/Input";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,7 @@ import {signInWithEmailAndPassword,GoogleAuthProvider, signInWithPopup} from 'fi
 import { getAuth } from "firebase/auth";
 import { app ,db} from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
+import { useAuth } from "../Context/auth/AuthState";
 
 const Login = () => {
   const [checkBox, setCheckBox] = useState();
@@ -58,7 +59,10 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "all" });
-
+  const {isAuthenticated } = useAuth();
+  useEffect(()=>{
+    if(isAuthenticated) navigate('/dashboard');
+  },[])
   return (
     <div className="auth signup">
       <h3>Welcome Back...</h3>

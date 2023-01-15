@@ -1,13 +1,19 @@
 import { MenuItem, Select } from "@mui/material";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "../Components/Footer";
 import Nav from "../Components/Nav";
 import Graph from "../Components/Graph";
+import { useAuth } from "../Context/auth/AuthState";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [personName, setPersonName] = React.useState();
-
+  const navigate = useNavigate();
+  const {isAuthenticated } = useAuth();
+  useEffect(()=>{
+    if(!isAuthenticated) navigate('/login');
+  },[])
   const handleChange = (e) => {};
   return (
     <div className="dashboard full_screen">
