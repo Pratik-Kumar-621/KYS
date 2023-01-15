@@ -6,6 +6,7 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import "./Styles/app.scss";
+import Error from "./Pages/Error";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="login" element={<Login />}></Route>
             <Route path="signup" element={<Signup />}></Route>
           </Route>
+          <Route path="*" element={<Error />} />
         </Routes>
       </AuthState>
     </Router>

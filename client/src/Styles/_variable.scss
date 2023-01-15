@@ -1,1 +1,20 @@
 $title_green: #075e54;
+$light_text: #aaaaaa;
+$red: #ff0000;
+$white: #ffffff;
+$link: #0377ff;
+$black: #000000;
+
+.red {
+  color: $red;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.full_screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 72px auto 3.2rem;
+}

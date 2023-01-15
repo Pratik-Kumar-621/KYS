@@ -1,0 +1,32 @@
+@import "./variable";
+
+.error_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    width: 24rem;
+    height: 18rem;
+  }
+  .message_error {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: $light_text;
+    margin-top: 1.5rem;
+  }
+}
+.error_404 {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 72px auto 3.2rem;
+  .error_page {
+    align-self: center;
+    a {
+      text-decoration: none;
+      color: $link;
+      button {
+        font-weight: 600;
+      }
+    }
+  }
+}
