@@ -1,4 +1,4 @@
-$title_green: #075e54;
+$title_green: #39a97c;
 $light_text: #aaaaaa;
 $red: #ff0000;
 $white: #ffffff;
@@ -7,6 +7,9 @@ $black: #000000;
 
 .red {
   color: $red;
+}
+.green {
+  color: $title_green;
 }
 .center {
   display: flex;
