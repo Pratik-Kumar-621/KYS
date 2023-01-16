@@ -80,7 +80,7 @@ const Dashboard = () => {
 
   // Apis Content
 
-  const baseUrl = `https://stock-dekho.onrender.com:3001/${
+  const baseUrl = `https://stock-dekho.onrender.com/${
     personName === "getNSE" || personName === "getBSE"
       ? personName
       : "getCompany"
