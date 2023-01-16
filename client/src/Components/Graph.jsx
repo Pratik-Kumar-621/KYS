@@ -1,26 +1,10 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import axios from "axios";
 
-const Graph = () => {
-  const [posts, setPost] = React.useState([]);
-
-  React.useEffect(() => {
-    axios
-      .post("http://localhost:3001/getNSE", {
-        data: {
-          startDate: "2018-01-15",
-          endDate: "2022-01-10",
-        },
-      })
-      .then((response) => {
-        setPost(response.data);
-      });
-  }, []);
-  console.log(posts);
-  const value = posts?.map((item) => ({
+const Graph = ({ arr }) => {
+  const value = arr?.map((item) => ({
     x: new Date(item.Date),
-    y: [item.High, item.Low, item.Open, item.Close],
+    y: [item.Open, item.High, item.Low, item.Close],
   }));
   const series = [
     {
@@ -31,6 +15,9 @@ const Graph = () => {
     chart: {
       type: "candlestick",
       height: 350,
+      animations: {
+        enabled: false,
+      },
     },
     title: {
       text: "CandleStick Chart",
