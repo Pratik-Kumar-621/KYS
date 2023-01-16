@@ -5,7 +5,7 @@ import Landing from "../Components/Landing";
 const Auth = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    navigate("/dashboard");
+    navigate("/login");
   }, []);
   return (
     <div className="home_page">
