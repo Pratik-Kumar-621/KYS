@@ -4,7 +4,7 @@ import ReactApexChart from "react-apexcharts";
 const Graph = ({ arr }) => {
   const value = arr?.map((item) => ({
     x: new Date(item.Date),
-    y: [item.Open, item.Close, item.High, item.Low],
+    y: [item.Open, item.High, item.Low, item.Close],
   }));
   const series = [
     {
