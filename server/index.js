@@ -1,8 +1,8 @@
 require("dotenv").config();
 
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-const config = require('./admin-cred.json')
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const config = require("./admin-cred.json");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -24,34 +24,34 @@ client.connect().then(async () => {
   // await client.close();
 });
 admin.initializeApp({
-    credential:admin.credential.cert(config),
-    databaseURL:undefined
-})
+  credential: admin.credential.cert(config),
+  databaseURL: undefined,
+});
 const authenticate = async (req, res, next) => {
-    if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-        res.status(403).send('Unauthorized');
-        console.log('Token not found in request!');
-        return;
-    }
-    const idToken = req.headers.authorization.split('Bearer ')[1];
-    console.log('Token found in request!');
+  if (
+    !req.headers.authorization ||
+    !req.headers.authorization.startsWith("Bearer ")
+  ) {
+    res.status(403).send("Unauthorized");
+    console.log("Token not found in request!");
+    return;
+  }
+  const idToken = req.headers.authorization.split("Bearer ")[1];
+  console.log("Token found in request!");
 
-    try {
-        const decodedIdToken = await admin.auth().verifyIdToken(idToken);
-        req.user = decodedIdToken;
-        next();
-        return;
-    } catch(e) {
-        // console.log("decode failed",e);
-        res.status(403).send('Unauthorized');
-        return;
-    }
+  try {
+    const decodedIdToken = await admin.auth().verifyIdToken(idToken);
+    req.user = decodedIdToken;
+    next();
+    return;
+  } catch (e) {
+    // console.log("decode failed",e);
+    res.status(403).send("Unauthorized");
+    return;
+  }
 };
-  
+
 app.use(authenticate);
-  
-
-
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get("/bseCount", async (req, res) => {

@@ -1,0 +1,66 @@
+@import "./variable";
+
+.filters_date {
+  margin-top: 2.1rem;
+  margin-bottom: 2rem;
+  .filters {
+    border: 1px solid $light_text;
+    color: $light_text;
+    margin-right: 2.1rem;
+  }
+  button {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    &:hover {
+      border: 1px solid $light_blue;
+      background-color: $light_blue;
+      color: white;
+    }
+  }
+  .active-filter-month {
+    border: 1px solid $link;
+    background-color: $link;
+    color: white;
+    &:hover {
+      border: 1px solid $link;
+      background-color: $link;
+      color: white;
+    }
+  }
+  .filter5 {
+    border-color: $red;
+    color: $red;
+    &:hover {
+      border: 1px solid $red;
+      background-color: white;
+      color: $red;
+    }
+  }
+}
+
+@media all and (max-width: 1300px) {
+  .filters_date {
+    margin-top: 1.6rem;
+    .filters {
+      margin-right: 1.8rem;
+    }
+    button {
+      padding-left: 1.8rem;
+      padding-right: 1.8rem;
+    }
+  }
+}
+@media all and (max-width: 900px) {
+  .filters_date {
+    text-align: center;
+
+    margin-top: 1.25rem;
+    .filters {
+      margin-right: 1.4rem;
+    }
+    button {
+      padding-left: 1.4rem;
+      padding-right: 1.4rem;
+    }
+  }
+}

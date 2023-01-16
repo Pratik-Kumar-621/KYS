@@ -10,10 +10,10 @@ import Summary from "../Components/Summary";
 import { useAuth } from "../Context/auth/AuthState";
 
 const Dashboard = () => {
-  const token  = useAuth().auth.token;
+  const token = useAuth().auth.token;
   const header = {
-    Authorization:"Bearer "+ token 
-  }
+    Authorization: "Bearer " + token,
+  };
   // States
   const monthNames = [
     "January",
@@ -30,9 +30,13 @@ const Dashboard = () => {
     "December",
   ];
   const [personName, setPersonName] = useState("getNSE");
-  const [startDate, setStartDate] = useState(new Date("2018-01-15"));
   const [endDate, setEndDate] = useState(new Date("2023-01-13"));
+  const [startDate, setStartDate] = useState(
+    new Date(moment(endDate).subtract(18, "M").format("YYYY-MM-DD"))
+  );
   const [data, setData] = useState(null);
+  const [tab, setTab] = useState("chart");
+  const [activeFilterMonth, setActiveFilterMonth] = useState("Handle18Month");
 
   const stockName = `${personName === "getNSE" ? "Nifty 50" : ""}${
     personName === "getBSE" ? "Bombay Stock Exchange" : ""
@@ -52,26 +56,31 @@ const Dashboard = () => {
   const HandleOneMonth = () => {
     const newEnd = moment(endDate).subtract(1, "M").format("YYYY-MM-DD");
     setStartDate(new Date(newEnd));
+    setActiveFilterMonth("HandleOneMonth");
   };
   const HandleSixMonth = () => {
     const newEnd = moment(endDate).subtract(6, "M").format("YYYY-MM-DD");
     setStartDate(new Date(newEnd));
+    setActiveFilterMonth("HandleSixMonth");
   };
   const HandleOneYear = () => {
     const newEnd = moment(endDate).subtract(12, "M").format("YYYY-MM-DD");
     setStartDate(new Date(newEnd));
+    setActiveFilterMonth("HandleOneYear");
   };
   const Reset = () => {
     setStartDate(new Date("2018-01-15"));
+    setActiveFilterMonth("");
   };
   const Handle18Month = () => {
     const newEnd = moment(endDate).subtract(18, "M").format("YYYY-MM-DD");
     setStartDate(new Date(newEnd));
+    setActiveFilterMonth("Handle18Month");
   };
 
   // Apis Content
 
-  const baseUrl = `http://localhost:3001/${
+  const baseUrl = `https://stock-dekho.onrender.com:3001/${
     personName === "getNSE" || personName === "getBSE"
       ? personName
       : "getCompany"
@@ -84,15 +93,19 @@ const Dashboard = () => {
   const [weekData, setWeekData] = useState(null);
   React.useEffect(() => {
     axios
-      .post(baseUrl, {
-        data: {
-          startDate: new Date(
-            moment(endDate).subtract(12, "M").format("YYYY-MM-DD")
-          ),
-          endDate: endDate,
-          companyName: compName,
+      .post(
+        baseUrl,
+        {
+          data: {
+            startDate: new Date(
+              moment(endDate).subtract(12, "M").format("YYYY-MM-DD")
+            ),
+            endDate: endDate,
+            companyName: compName,
+          },
         },
-      },{headers:header})
+        { headers: header }
+      )
       .then((response) => {
         setWeekData(response.data);
       });
@@ -114,13 +127,17 @@ const Dashboard = () => {
     } else {
       setData();
       axios
-        .post(baseUrl, {
-          data: {
-            startDate: startDate,
-            endDate: endDate,
-            companyName: compName,
+        .post(
+          baseUrl,
+          {
+            data: {
+              startDate: startDate,
+              endDate: endDate,
+              companyName: compName,
+            },
           },
-        },{headers:header})
+          { headers: header }
+        )
         .then((response) => {
           cache.current = {
             ...(cache.current ?? {}),
@@ -165,51 +182,149 @@ const Dashboard = () => {
             <div>TATASTEEL</div>
           </MenuItem>
         </Select>
-        {data && (
+        {weekData && (
           <Summary
             name={`${stockName} (${
               personName === "getNSE" || personName === "getBSE"
                 ? `${personName[3]}${personName[4]}${personName[5]}`
                 : personName
             })`}
-            date={`${new Date(data[data?.length - 1].Date).getDate()}  ${
-              monthNames[new Date(data[data?.length - 1].Date).getMonth()]
-            } ${new Date(data[data?.length - 1].Date).getFullYear()}`}
-            price={data[data?.length - 1].Close}
-            open={data[data?.length - 1].Open}
-            previousClose={data[data?.length - 2].Close}
-            dayClose={data[data?.length - 1].Close}
-            dayLow={data[data?.length - 1].Low}
-            dayHigh={data[data?.length - 1].High}
+            date={`${new Date(
+              weekData[weekData?.length - 1].Date
+            ).getDate()}  ${
+              monthNames[
+                new Date(weekData[weekData?.length - 1].Date).getMonth()
+              ]
+            } ${new Date(weekData[weekData?.length - 1].Date).getFullYear()}`}
+            price={weekData[weekData?.length - 1].Close}
+            open={weekData[weekData?.length - 1].Open}
+            previousClose={weekData[weekData?.length - 2].Close}
+            dayClose={weekData[weekData?.length - 1].Close}
+            dayLow={weekData[weekData?.length - 1].Low}
+            dayHigh={weekData[weekData?.length - 1].High}
             yearLow={WeekLow}
             yearHigh={WeekHigh}
-            yearClose={data[data?.length - 1].Close}
+            yearClose={weekData[weekData?.length - 1].Close}
           />
         )}
-        {data ? (
-          <>
-            <Graph arr={data} />
-          </>
+        {weekData ? (
+          <div className="details-final-tabs">
+            <div className="tab-view">
+              <Button
+                className={`tab-item ${tab === "chart" && "activeTab"}`}
+                onClick={() => setTab("chart")}
+              >
+                Chart
+              </Button>
+              <Button
+                className={`tab-item ${tab === "overview" && "activeTab"}`}
+                onClick={() => setTab("overview")}
+              >
+                Overview
+              </Button>
+            </div>
+            {tab === "overview" ? (
+              <div className="overview_dash">
+                <div className="split-dash-over">
+                  <div className="overview_details_indiv">
+                    <div className="head-indiv">Open</div>
+                    <div className="tail-indiv">
+                      {weekData[weekData?.length - 1].Open}
+                    </div>
+                  </div>
+                  <div className="overview_details_indiv">
+                    <div className="head-indiv">Previous Close</div>
+                    <div className="tail-indiv">
+                      {weekData[weekData?.length - 2].Close}
+                    </div>
+                  </div>
+                  <div className="overview_details_indiv">
+                    <div className="head-indiv">Day High</div>
+                    <div className="tail-indiv">
+                      {weekData[weekData?.length - 1].High}
+                    </div>
+                  </div>
+                </div>
+                <div className="split-dash-over">
+                  <div className="overview_details_indiv">
+                    <div className="head-indiv">Day Low</div>
+                    <div className="tail-indiv">
+                      {weekData[weekData?.length - 1].Low}
+                    </div>
+                  </div>
+                  <div className="overview_details_indiv">
+                    <div className="head-indiv">52 Weeks High</div>
+                    <div className="tail-indiv">{WeekHigh} </div>
+                  </div>
+                  <div className="overview_details_indiv">
+                    <div className="head-indiv">52 Weeks Low</div>
+                    <div className="tail-indiv">{WeekLow} </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="graph-chart-dash">
+                {data ? (
+                  <>
+                    <div className="graph-candle">
+                      <Graph arr={data} />
+                    </div>
+                    <div className="filters_date">
+                      <Button
+                        className={`filters filter1 ${
+                          activeFilterMonth === "HandleOneMonth" &&
+                          "active-filter-month"
+                        }`}
+                        onClick={HandleOneMonth}
+                      >
+                        1M
+                      </Button>
+                      <Button
+                        className={`filters filter2 ${
+                          activeFilterMonth === "HandleSixMonth" &&
+                          "active-filter-month"
+                        }`}
+                        onClick={HandleSixMonth}
+                      >
+                        6M
+                      </Button>
+                      <Button
+                        className={`filters filter3 ${
+                          activeFilterMonth === "HandleOneYear" &&
+                          "active-filter-month"
+                        }`}
+                        onClick={HandleOneYear}
+                      >
+                        1Y
+                      </Button>
+                      <Button
+                        className={`filters filter4 ${
+                          activeFilterMonth === "Handle18Month" &&
+                          "active-filter-month"
+                        }`}
+                        onClick={Handle18Month}
+                      >
+                        18M
+                      </Button>{" "}
+                      <Button
+                        color="error"
+                        className={`filters filter5
+                    `}
+                        onClick={Reset}
+                      >
+                        Reset
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div id="loading"></div>
+                )}
+              </div>
+            )}
+          </div>
         ) : (
-          <>Loading</>
+          <div id="loading"></div>
         )}
-        <div className="filters_date">
-          <Button className="filter1" onClick={HandleOneMonth}>
-            1M
-          </Button>
-          <Button className="filter2" onClick={HandleSixMonth}>
-            6M
-          </Button>
-          <Button className="filter3" onClick={HandleOneYear}>
-            1Y
-          </Button>
-          <Button className="filter4" onClick={Handle18Month}>
-            18M
-          </Button>{" "}
-          <Button className="filter5" onClick={Reset}>
-            Reset
-          </Button>
-        </div>
       </div>
       <Footer />
     </div>

@@ -30,3 +30,130 @@
     padding-right: 1rem !important;
   }
 }
+
+.details-final-tabs {
+  margin-top: 1.2rem;
+  .tab-view {
+    .tab-item {
+      border: 1px solid $light_text;
+      color: $light_text;
+      margin-right: 2.1rem;
+    }
+    button {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .activeTab {
+      border: 1px solid $title_green;
+      background-color: $title_green;
+      color: white;
+    }
+  }
+
+  .overview_dash {
+    margin-top: 2rem;
+    display: flex;
+    .split-dash-over {
+      &:first-child {
+        margin-right: 2rem;
+      }
+      &:last-child {
+        margin-left: 2rem;
+      }
+    }
+    .overview_details_indiv {
+      display: flex;
+      justify-content: space-between;
+
+      width: 32rem;
+      padding: 1rem 0;
+      border-bottom: 1px dashed $light_text;
+      font-size: 1.2rem;
+      .head-indiv {
+        color: $light_text;
+      }
+      .tail-indiv {
+        color: $text;
+        font-weight: 600;
+      }
+      // padding: 2rem;
+    }
+  }
+}
+
+@media all and (max-width: 1300px) {
+  .dashboard_body {
+    padding: 1.4rem 3.6rem;
+  }
+  .details-final-tabs {
+    margin-top: 1rem;
+    .tab-view {
+      .tab-item {
+        margin-right: 1.8rem;
+      }
+      button {
+        padding-left: 1.8rem;
+        padding-right: 1.8rem;
+      }
+    }
+
+    .overview_dash {
+      margin-top: 1.8rem;
+      .split-dash-over {
+        &:first-child {
+          margin-right: 1.8rem;
+        }
+        &:last-child {
+          margin-left: 1.8rem;
+        }
+      }
+      .overview_details_indiv {
+        width: 21rem;
+        padding: 0.75rem 0;
+        border-bottom: 1p dashed $light_text;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+@media all and (max-width: 900px) {
+  .dashboard_body {
+    padding: 0.8rem 2.4rem;
+  }
+  .details-final-tabs {
+    margin-top: 1rem;
+    .tab-view {
+      display: flex;
+      justify-content: center;
+      .tab-item {
+        margin-right: 1.8rem;
+      }
+      button {
+        padding-left: 1.8rem;
+        padding-right: 1.8rem;
+      }
+    }
+
+    .overview_dash {
+      margin-top: 1.8rem;
+      flex-direction: column;
+      align-items: center;
+      .split-dash-over {
+        &:first-child {
+          margin-right: 0;
+        }
+        &:last-child {
+          margin-left: 0;
+        }
+      }
+      .overview_details_indiv {
+        width: 21rem;
+        padding: 0.75rem 0;
+        border-bottom: 1p dashed $light_text;
+        font-size: 1rem;
+      }
+    }
+  }
+}

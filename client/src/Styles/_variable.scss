@@ -5,6 +5,8 @@ $red: #ff0000;
 $white: #ffffff;
 $link: #0377ff;
 $black: #000000;
+$text: #3f3d56;
+$light_blue: #a4aff9;
 
 .green {
   color: $green;
@@ -22,4 +24,15 @@ $black: #000000;
   min-height: 100vh;
   display: grid;
   grid-template-rows: 72px auto 3.2rem;
+}
+
+@media all and (max-width: 1300px) {
+  .full_screen {
+    grid-template-rows: 60px auto 2.7rem;
+  }
+}
+@media all and (max-width: 900px) {
+  .full_screen {
+    grid-template-rows: 48px auto 2.4rem;
+  }
 }

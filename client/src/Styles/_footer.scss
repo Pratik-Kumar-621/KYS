@@ -14,3 +14,22 @@
     text-decoration: none;
   }
 }
+
+@media all and (max-width: 1300px) {
+  .footer {
+    height: 2.7rem;
+    font-size: 0.86rem;
+  }
+}
+@media all and (max-width: 900px) {
+  .footer {
+    height: 2.4rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media all and (max-width: 600px) {
+  .footer {
+    font-size: 0.5rem;
+  }
+}

@@ -15,12 +15,13 @@ const Graph = ({ arr }) => {
     chart: {
       type: "candlestick",
       height: 350,
+
       animations: {
         enabled: false,
       },
     },
     title: {
-      text: "CandleStick Chart",
+      text: "",
       align: "left",
     },
     xaxis: {
@@ -34,16 +35,9 @@ const Graph = ({ arr }) => {
   };
 
   return (
-    <div>
-      <h1>
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="candlestick"
-          height={350}
-        />
-      </h1>
-    </div>
+    <>
+      <ReactApexChart options={options} series={series} type="candlestick" />
+    </>
   );
 };
 

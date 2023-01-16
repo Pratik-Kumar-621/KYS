@@ -19,7 +19,7 @@ const Summary = ({
   return (
     <div className="summary">
       <h2>{name}</h2>
-      <hr />
+      <div className="hr" />
       <div className="details">
         <div className="price">
           <h1>{price}</h1>
