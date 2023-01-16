@@ -4,17 +4,21 @@ import Input from "../Components/Input";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
 import GoogleImg from "../Media/google.png";
-import {signInWithEmailAndPassword,GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { getAuth } from "firebase/auth";
-import { app ,db} from "../firebaseConfig";
+import { app, db } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../Context/auth/AuthState";
 
 const Login = () => {
   const [checkBox, setCheckBox] = useState();
-  const [error,setError] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const goToDashboard = ()=>navigate('/dashboard');
+  const goToDashboard = () => navigate("/dashboard");
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const checkCheckBox = (e) => {
@@ -22,37 +26,37 @@ const Login = () => {
     setCheckBox(checkData);
   };
 
-  const handleLogin =  async(data) => {
+  const handleLogin = async (data) => {
     console.log(data);
     try {
-      
-      let userCred = await signInWithEmailAndPassword(auth,data.email,data.password);
-      let docSnap = await getDoc(doc(db,'users',userCred.user.uid))
+      let userCred = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      let docSnap = await getDoc(doc(db, "users", userCred.user.uid));
       console.log(docSnap.data());
       // set context
       goToDashboard();
     } catch (error) {
-      if(error.code == 'auth/user-not-found'){
-        setError('Email not found !')
+      if (error.code == "auth/user-not-found") {
+        setError("Email not found !");
       }
-      if(error.code == 'auth/wrong-password') {
-        setError('Wrong Password!')
+      if (error.code == "auth/wrong-password") {
+        setError("Wrong Password!");
       }
-      
     }
-
   };
-  const handleGoogleSignIn = async (e)=>{
+  const handleGoogleSignIn = async (e) => {
     try {
-      provider.addScope('profile');
-      provider.addScope('email');
-      let userCred = await signInWithPopup(auth,provider);
+      provider.addScope("profile");
+      provider.addScope("email");
+      let userCred = await signInWithPopup(auth, provider);
       goToDashboard();
     } catch (error) {
       // error
     }
-
-  }
+  };
 
   const {
     register,
@@ -117,6 +121,7 @@ const Login = () => {
           <Button type="submit" className="submit-form">
             Login
           </Button>
+          {error ? <p className="error">{error}</p> : ""}
           <Button className="submit_google" onClick={handleGoogleSignIn}>
             <img src={GoogleImg} alt="Google" />
             Continue with Google
