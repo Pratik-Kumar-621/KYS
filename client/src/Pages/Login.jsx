@@ -59,10 +59,10 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "all" });
-  const {isAuthenticated } = useAuth();
-  useEffect(()=>{
-    if(isAuthenticated) navigate('/dashboard');
-  },[])
+  // const {isAuthenticated } = useAuth();
+  // useEffect(()=>{
+  //   if(isAuthenticated) navigate('/dashboard');
+  // },[])
   return (
     <div className="auth signup">
       <h3>Welcome Back...</h3>

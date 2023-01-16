@@ -10,7 +10,9 @@ export const AuthState = (props) => {
     uid:"",
     token:""
   });
+  const [loading,setLoading] =useState(false);
   useEffect(()=>{
+    setLoading(true);
     const unSubscribe = onAuthStateChanged(getAuth(app),async (user)=>{
       if(user){
         let token = await user.getIdToken();
@@ -20,10 +22,13 @@ export const AuthState = (props) => {
           token:token,
         })
       }
+    setLoading(false);
+
     })
+    return unSubscribe;
   },[])
   // add a loading while authState is updated...
-  return (
+  return (loading?<div id='loading-container' ><div id="loading"></div></div>:
     <AuthContext.Provider value={{auth,setAuth}}>{props.children}</AuthContext.Provider>
   );
 };

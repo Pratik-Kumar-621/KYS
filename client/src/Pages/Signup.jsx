@@ -58,11 +58,6 @@ const SignUp = () => {
         first_name: userCred.user.displayName,
         last_name: "",
       });
-      // let token = await userCred.user.getIdToken()
-      // authState.setAuth({name:userCred.user.displayName,
-      //   uid:userCred.user.uid,
-      //   token:token
-      // })
       goToDashboard();
     } catch (error) {
       // error
@@ -74,11 +69,6 @@ const SignUp = () => {
     getValues,
     formState: { errors },
   } = useForm({ mode: "all" });
-
-  const {isAuthenticated } = useAuth();
-  useEffect(()=>{
-    if(isAuthenticated) navigate('/dashboard');
-  },[])
 
   return (
     <div className="auth login">
