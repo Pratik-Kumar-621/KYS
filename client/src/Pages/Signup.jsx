@@ -10,9 +10,10 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { addDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { app, db } from "../firebaseConfig";
-
+import { useAuth } from "../Context/auth/AuthState";
+import { useEffect } from "react";
 const SignUp = () => {
   const [checkBox, setCheckBox] = useState();
   const auth = getAuth(app);
@@ -20,7 +21,8 @@ const SignUp = () => {
   const goToSignIn = () => navigate("/login");
   const goToDashboard = () => navigate("/dashboard");
   const provider = new GoogleAuthProvider();
-
+  const authState = useAuth();
+  console.log(authState);
   const checkCheckBox = (e) => {
     const checkData = e.target.checked;
     setCheckBox(checkData);

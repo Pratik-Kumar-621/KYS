@@ -7,16 +7,9 @@ import Graph from "../Components/Graph";
 import { useRef } from "react";
 import moment from "moment";
 import Summary from "../Components/Summary";
-import { useAuth } from "../Context/auth/AuthState";
-import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   // States
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-  useEffect(() => {
-    if (!isAuthenticated) navigate("/login");
-  }, []);
   const monthNames = [
     "January",
     "February",
