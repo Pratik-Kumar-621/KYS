@@ -34,7 +34,7 @@ const authenticate = async (req, res, next) => {
         return;
     }
     const idToken = req.headers.authorization.split('Bearer ')[1];
-    console.log('Token found in request!',idToken);
+    console.log('Token found in request!');
 
     try {
         const decodedIdToken = await admin.auth().verifyIdToken(idToken);
@@ -42,7 +42,7 @@ const authenticate = async (req, res, next) => {
         next();
         return;
     } catch(e) {
-        console.log("decode failed",e);
+        // console.log("decode failed",e);
         res.status(403).send('Unauthorized');
         return;
     }
