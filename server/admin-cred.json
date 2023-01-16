@@ -1,0 +1,11 @@
+{
+  "type": "service_account",
+  "project_id": "stock-dekho",
+  "private_key_id": "d91c55fcb7439bf68bb7340b38356c2e9a1011f6",
+  "client_email": "firebase-adminsdk-49qbr@stock-dekho.iam.gserviceaccount.com",
+  "client_id": "113748015172436091523",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-49qbr%40stock-dekho.iam.gserviceaccount.com"
+}

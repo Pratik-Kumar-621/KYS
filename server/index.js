@@ -2,7 +2,10 @@ require("dotenv").config();
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const config = require('./admin-cred.json')
+let config = require('./admin-cred.json')
+// const config = JSON.parse(process.env.JSON_KEY);
+config.private_key = process.env.JSON_PRIVATEKEY.replace(/\\n/g, '\n');
+console.log(config);
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
