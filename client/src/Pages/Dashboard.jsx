@@ -7,8 +7,13 @@ import Graph from "../Components/Graph";
 import { useRef } from "react";
 import moment from "moment";
 import Summary from "../Components/Summary";
+import { useAuth } from "../Context/auth/AuthState";
 
 const Dashboard = () => {
+  const token  = useAuth().auth.token;
+  const header = {
+    Authorization:"Bearer "+ token 
+  }
   // States
   const monthNames = [
     "January",
@@ -87,7 +92,7 @@ const Dashboard = () => {
           endDate: endDate,
           companyName: compName,
         },
-      })
+      },{headers:header})
       .then((response) => {
         setWeekData(response.data);
       });
@@ -115,7 +120,7 @@ const Dashboard = () => {
             endDate: endDate,
             companyName: compName,
           },
-        })
+        },{headers:header})
         .then((response) => {
           cache.current = {
             ...(cache.current ?? {}),
