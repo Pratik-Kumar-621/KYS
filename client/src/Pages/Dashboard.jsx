@@ -65,6 +65,7 @@ const Dashboard = () => {
   };
 
   // Apis Content
+
   const baseUrl = `http://localhost:3001/${
     personName === "getNSE" || personName === "getBSE"
       ? personName
@@ -75,6 +76,27 @@ const Dashboard = () => {
   }`;
 
   // Api call
+  const [weekData, setWeekData] = useState(null);
+  React.useEffect(() => {
+    axios
+      .post(baseUrl, {
+        data: {
+          startDate: new Date(
+            moment(endDate).subtract(12, "M").format("YYYY-MM-DD")
+          ),
+          endDate: endDate,
+          companyName: compName,
+        },
+      })
+      .then((response) => {
+        setWeekData(response.data);
+      });
+  }, [personName]);
+  console.log(weekData);
+  const closeWeek = weekData?.map((item) => parseFloat(item.Close));
+  // console.log(close);
+  const WeekHigh = closeWeek?.reduce((a, b) => Math.max(a, b));
+  const WeekLow = closeWeek?.reduce((a, b) => Math.min(a, b));
   React.useEffect(() => {
     if (
       cache.current[`${personName}_${startDate.getTime()}_${endDate.getTime()}`]
@@ -154,9 +176,9 @@ const Dashboard = () => {
             dayClose={data[data?.length - 1].Close}
             dayLow={data[data?.length - 1].Low}
             dayHigh={data[data?.length - 1].High}
-            yearLow="15183.40"
-            yearHigh="18887.60"
-            yearClose="17789.54"
+            yearLow={WeekLow}
+            yearHigh={WeekHigh}
+            yearClose={data[data?.length - 1].Close}
           />
         )}
         {data ? (
